@@ -27,4 +27,64 @@
  */
 export function checkPasswordStrength(password) {
   // Your code here
+
+  if (typeof password != 'string') {
+    return 'weak';
+  }
+
+  
+  const len = password.length
+
+  if(len === 0) {
+    return 'weak';
+  }
+
+  let isLengthGood = false;
+  let isUpperInvolved = false;
+  let isLowerInvolved = false;
+  let isNumberInvolved = false;
+  let isSpecialCharInvolved = false;
+
+
+  let criteraMet = 0;
+  if (len >= 8) {
+    isLengthGood = true;
+    criteraMet++;
+  }
+  for (let i = 0; i < len; i++) {
+    let ascii = password[i].charCodeAt();
+
+    if (ascii >= 65 && ascii <= 90) {
+      isUpperInvolved = true;
+    }
+    else if (ascii >= 97 && ascii <= 122) {
+      isLowerInvolved = true;
+    }
+    else if (ascii >= 48 && ascii <= 57) {
+      isNumberInvolved = true;
+    }
+    else {
+      isSpecialCharInvolved = true;
+    }
+
+    if (isUpperInvolved && isLowerInvolved && isNumberInvolved && isSpecialCharInvolved) {
+      break;
+    }
+  }
+
+  if (isUpperInvolved) criteraMet++;
+  if (isLowerInvolved) criteraMet++;
+  if (isNumberInvolved) criteraMet++;
+  if (isSpecialCharInvolved) criteraMet++;
+
+  if (criteraMet <= 1) {
+    return 'weak';
+  } else if (criteraMet <= 3) {
+    return 'medium';
+  } else if (criteraMet <= 4) {
+    return 'strong';
+  } else {
+    return 'very strong';
+  }
+
 }
